@@ -21,7 +21,7 @@
    "path": ".github/workflows/tests.yml",
    "rule": "unhashed-pip-install",
    "scope": "dependencies",
-   "evidence": "python -m pip install -r requirements-test.txt",
+   "evidence": "pip install -r requirements-test.txt",
    "issue": "https://github.com/reihlinstinct/parking-report-intake/issues/23",
    "reason": "Pre-existing pip install without --require-hashes; resolves unhashed dependencies; tracked for hash pinning in this issue."
   },
