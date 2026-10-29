@@ -1,0 +1,45 @@
+{
+ "version": 1,
+ "findings": [
+  {
+   "path": ".github/workflows/scorecard.yml",
+   "rule": "job-write",
+   "scope": "analysis",
+   "evidence": "security-events: write",
+   "issue": "https://github.com/reihlinstinct/parking-report-intake/issues/23",
+   "reason": "Approved job-scoped SARIF upload to GitHub code scanning; no code or secrets write."
+  },
+  {
+   "path": ".github/workflows/manual-gpg-signing.yml",
+   "rule": "top-level-write",
+   "scope": "workflow",
+   "evidence": "contents: write",
+   "issue": "https://github.com/reihlinstinct/parking-report-intake/issues/23",
+   "reason": "Pre-existing workflow-level write permission; tracked for job-level scoping in this issue."
+  },
+  {
+   "path": ".github/workflows/tests.yml",
+   "rule": "unhashed-pip-install",
+   "scope": "dependencies",
+   "evidence": "python -m pip install -r requirements-test.txt",
+   "issue": "https://github.com/reihlinstinct/parking-report-intake/issues/23",
+   "reason": "Pre-existing pip install without --require-hashes; resolves unhashed dependencies; tracked for hash pinning in this issue."
+  },
+  {
+   "path": "requirements-test.txt",
+   "rule": "unhashed-requirement",
+   "scope": "dependencies",
+   "evidence": "cryptography>=50.0,<51",
+   "issue": "https://github.com/reihlinstinct/parking-report-intake/issues/23",
+   "reason": "Pre-existing requirement entry without exact version and sha256 hash; tracked for hash pinning in this issue."
+  },
+  {
+   "path": "requirements-test.txt",
+   "rule": "unhashed-requirement",
+   "scope": "dependencies",
+   "evidence": "Pillow>=12.3,<13",
+   "issue": "https://github.com/reihlinstinct/parking-report-intake/issues/23",
+   "reason": "Pre-existing requirement entry without exact version and sha256 hash; tracked for hash pinning in this issue."
+  }
+ ]
+}
