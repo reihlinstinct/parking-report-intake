@@ -2,6 +2,8 @@
 
 Documentation and synthetic tests only. **Not accepting real reports.** Never publish reporter details, real vehicle plates, photos, credentials, keys or tokens here, in plaintext or encrypted, until the pilot has an approved go-live.
 
+Every workflow ends with a `Run summary` job that writes a summary to the top of the run page: which jobs ran, their result and duration, what was skipped and why, the commits and files the run changed, and which checks cover those changes (`.github/ci-coverage-map.json` declares the coverage; files matching no mapping are flagged). The script is `scripts/ci/run_summary.py`.
+
 This repository explores a public encrypted mailbox: one logical package contains an evidence JPEG and report JSON, encrypted on-device; only a separate private worker could decrypt. A public encryption key does not identify or authorize a sender. Device signatures, enrolled GitHub identities, exact approval, revocation, byte caps and durable duplicate guards are required.
 
 Current status: eight offline crypto/package experiments and eight intake-boundary tests passed. Live GitHub App device-flow permissions, chunk acceptance, photo legibility, Android interoperability and private-worker triggering are unproven. No municipal calls or filing workflow in this repository. Public ciphertext and author/time/size metadata can be archived indefinitely. Do not use this as a production service.
