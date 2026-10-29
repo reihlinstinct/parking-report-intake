@@ -1,5 +1,7 @@
 # Encrypted report intake prototype
 
+[![tests](https://github.com/reihlinstinct/parking-report-intake/actions/workflows/tests.yml/badge.svg)](https://github.com/reihlinstinct/parking-report-intake/actions/workflows/tests.yml)
+
 Documentation and synthetic tests only. **Not accepting real reports.** Never publish reporter details, real vehicle plates, photos, credentials, keys or tokens here, in plaintext or encrypted, until the pilot has an approved go-live.
 
 Every workflow ends with a `Run summary` job that writes a summary to the top of the run page: which jobs ran, their result and duration, what was skipped and why, the commits and files the run changed, and which checks cover those changes (`.github/ci-coverage-map.json` declares the coverage; files matching no mapping are flagged). The script is `scripts/ci/run_summary.py`.
