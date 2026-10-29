@@ -31,6 +31,8 @@ jobs:
           python test_requirements_pins.py
 
   summary:
+    permissions:
+      contents: read
     name: Run summary
     if: always()
     needs: [unittest]
