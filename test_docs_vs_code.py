@@ -50,7 +50,7 @@ def documented_functions(text):
     for span in re.findall(r"`([^`\n]+)`", text):
         if re.fullmatch(r"[a-z][a-z_0-9]*", span):
             out.add(span)
-        out.update(re.findall(r"\b([a-z][a-z_0-9]*)\(\)", span))
+        out.update(re.findall(r"\b([a-z][a-z_0-9]*)\(", span))
     return out
 
 
@@ -72,6 +72,7 @@ class DocsVsCodeTest(unittest.TestCase):
     def test_doc_scan_catches_fake_function(self):
         self.assertIn("totally_fake_function", documented_functions("`totally_fake_function()`"))
         self.assertIn("totally_fake_function", documented_functions("`totally_fake_function`"))
+        self.assertIn("totally_fake_function", documented_functions("`totally_fake_function(value)`"))
 
 
 if __name__ == "__main__":
