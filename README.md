@@ -19,7 +19,7 @@ Prototype API (synthetic, offline; see [prototype.py](prototype.py)):
 - `encode(value)` - canonical JSON bytes (sorted keys, no spaces, UTF-8).
 - `package(photo)` - build the bounded binary container (magic, header length, canonical JSON header, JPEG bytes) for a synthetic report.
 - `unpack(value)` - parse and verify the container; rejects bad magic, header abuse and photo/approval digest mismatches.
-- `encrypt(public, plaintext)` / `decrypt(private, blob)` - reviewed-library hybrid envelope (RSA-OAEP wrapped AES-GCM key) over the whole signed package.
+- `encrypt(public, plaintext)` / `decrypt(private, blob)` - reviewed-library hybrid envelope (RSA-OAEP wrapped AES-GCM key) over the supplied plaintext. Neither function signs or verifies anything: the caller signs the plaintext package and verifies the signature separately.
 - `chunks(blob)` / `assemble(parts)` - split the ciphertext into bounded base64 chunks and reassemble with count/index/digest validation.
 - `synthetic_jpeg()` - deterministic synthetic evidence JPEG for the offline tests.
 - `validate(...)` in [intake_validation.py](intake_validation.py) - the untrusted-transport boundary checks (manifest/chunk/enrollment shape).
