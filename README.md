@@ -14,6 +14,16 @@ Protocol: [PROTOCOL.md](PROTOCOL.md). Experimental test script: [prototype.py](p
 
 No license selected. No permission to redistribute production code is implied.
 
+Prototype API (synthetic, offline; see [prototype.py](prototype.py)):
+
+- `encode(value)` - canonical JSON bytes (sorted keys, no spaces, UTF-8).
+- `package(photo)` - build the bounded binary container (magic, header length, canonical JSON header, JPEG bytes) for a synthetic report.
+- `unpack(value)` - parse and verify the container; rejects bad magic, header abuse and photo/approval digest mismatches.
+- `encrypt(public, plaintext)` / `decrypt(private, blob)` - reviewed-library hybrid envelope (RSA-OAEP wrapped AES-GCM key) over the whole signed package.
+- `chunks(blob)` / `assemble(parts)` - split the ciphertext into bounded base64 chunks and reassemble with count/index/digest validation.
+- `synthetic_jpeg()` - deterministic synthetic evidence JPEG for the offline tests.
+- `validate(...)` in [intake_validation.py](intake_validation.py) - the untrusted-transport boundary checks (manifest/chunk/enrollment shape).
+
 Boundary test source: [intake_validation.py](intake_validation.py), run `python intake_validation.py`. Uses only Python standard library. This validates untrusted transport structure, not real identity enrollment, crypto authenticity or filing approval.
 
 [test_requirements_pins.py](test_requirements_pins.py) (stdlib only) checks `requirements-test.txt`'s pins against what's actually installed; run `python test_requirements_pins.py`.
