@@ -73,6 +73,7 @@ jobs:
           python prototype.py
           python intake_validation.py
           python test_requirements_pins.py
+          python test_docs_vs_code.py
 
   summary:
     permissions:
