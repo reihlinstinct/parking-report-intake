@@ -1,36 +1,37 @@
-"""Runtime Python-version guards on the script entry points."""
+"""Runtime Python-version guards on the script entry points.
 
-import importlib.util
+Executes ONLY the extracted guard blocks - never the scripts' top-level
+code.
+"""
+
 import sys
 import unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+SCRIPTS = ("intake_validation.py", "prototype.py")
 
 
-def load(path, name):
-    spec = importlib.util.spec_from_file_location(name, ROOT / path)
-    assert spec and spec.loader
-    mod = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(mod)  # runs the guard; no exit on a supported interpreter
-    return mod
+def guard_block(path: str) -> str:
+    src = (ROOT / path).read_text()
+    start = src.index("MIN_PYTHON")
+    end = src.rindex("_check_python_version()") + len("_check_python_version()")
+    return src[start:end]
 
 
 class TestPythonVersionGuard(unittest.TestCase):
     def test_guards_accept_current(self):
-        load("intake_validation.py", "intake_validation_guarded")
-        load("prototype.py", "prototype_guarded")
+        for script in SCRIPTS:
+            exec(guard_block(script), {"_sys": sys, "sys": sys})
 
     def test_guard_rejects_old(self):
-        src = (ROOT / "intake_validation.py").read_text()
-        start = src.index("MIN_PYTHON")
-        end = src.rindex("_check_python_version()") + len("_check_python_version()")
         old = sys.version_info
         sys.version_info = (3, 10, 9)
         try:
-            with self.assertRaises(SystemExit) as cm:
-                exec(src[start:end], {"_sys": sys, "sys": sys})
-            self.assertIn("requires Python 3.11+", str(cm.exception))
+            for script in SCRIPTS:
+                with self.assertRaises(SystemExit) as cm:
+                    exec(guard_block(script), {"_sys": sys, "sys": sys})
+                self.assertIn("requires Python 3.11+", str(cm.exception))
         finally:
             sys.version_info = old
 
