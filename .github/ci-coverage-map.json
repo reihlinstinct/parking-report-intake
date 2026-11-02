@@ -17,6 +17,19 @@
       "checks": [
         "validate"
       ]
+    },
+    {
+      "pattern": "tests/**",
+      "checks": [
+        "unittest",
+        "coverage"
+      ]
+    },
+    {
+      "pattern": "scripts/**",
+      "checks": [
+        "coverage"
+      ]
     }
   ]
 }
