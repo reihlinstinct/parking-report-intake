@@ -22,7 +22,7 @@ def _parse(path):
 class TestRequirementsPins(unittest.TestCase):
     def test_pins_are_installed_and_in_bounds(self):
         pins = _parse("requirements-test.txt")
-        self.assertEqual(set(pins), {"cryptography", "Pillow"})
+        self.assertEqual(set(pins), {"cryptography", "Pillow", "pytest", "coverage"})
         for name, (low, high) in pins.items():
             installed = tuple(int(x) for x in metadata.version(name).split(".")[:len(low)])
             self.assertGreaterEqual(installed, low, f"{name} below pinned floor")
