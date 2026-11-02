@@ -1,4 +1,19 @@
 """Synthetic intake boundary tests. No GitHub calls, keys, auth tokens or filing."""
+import sys as _sys
+
+MIN_PYTHON = (3, 11)
+
+
+def _check_python_version():
+    if _sys.version_info < MIN_PYTHON:
+        raise SystemExit(
+            "intake_validation.py requires Python 3.11+ (you are running "
+            + ".".join(str(v) for v in _sys.version_info[:3])
+            + "). Python 3.10 is end-of-life; please use a newer interpreter."
+        )
+
+
+_check_python_version()
 from dataclasses import dataclass
 import base64
 import hashlib

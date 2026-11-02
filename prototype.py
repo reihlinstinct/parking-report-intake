@@ -1,4 +1,19 @@
 """Synthetic offline package/chunk validation, NOT production crypto or GitHub transport."""
+import sys as _sys
+
+MIN_PYTHON = (3, 11)
+
+
+def _check_python_version():
+    if _sys.version_info < MIN_PYTHON:
+        raise SystemExit(
+            "prototype.py requires Python 3.11+ (you are running "
+            + ".".join(str(v) for v in _sys.version_info[:3])
+            + "). Python 3.10 is end-of-life; please use a newer interpreter."
+        )
+
+
+_check_python_version()
 import base64, hashlib, io, json, os, random, unittest, struct
 from cryptography.hazmat.primitives.asymmetric import rsa, padding
 from cryptography.hazmat.primitives import hashes

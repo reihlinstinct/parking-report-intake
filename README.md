@@ -10,7 +10,7 @@ This repository explores a public encrypted mailbox: one logical package contain
 
 Current status: eight offline crypto/package experiments and eight intake-boundary tests passed. Live GitHub App device-flow permissions, chunk acceptance, photo legibility, Android interoperability and private-worker triggering are unproven. No municipal calls or filing workflow in this repository. Public ciphertext and author/time/size metadata can be archived indefinitely. Do not use this as a production service.
 
-Protocol: [PROTOCOL.md](PROTOCOL.md). Experimental test script: [prototype.py](prototype.py). Test dependencies are pinned in [requirements-test.txt](requirements-test.txt) (`pip install -r requirements-test.txt`). Run `python prototype.py` locally. Keys are generated transiently for synthetic tests and not written to disk.
+Protocol: [PROTOCOL.md](PROTOCOL.md). Requires Python 3.11+ (3.10 is end-of-life). Experimental test script: [prototype.py](prototype.py). Test dependencies are pinned in [requirements-test.txt](requirements-test.txt) (`pip install -r requirements-test.txt`). Run `python prototype.py` locally. Keys are generated transiently for synthetic tests and not written to disk.
 
 No license selected. No permission to redistribute production code is implied.
 
