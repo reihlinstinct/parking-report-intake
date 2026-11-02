@@ -48,6 +48,22 @@
    "evidence": "issues: write",
    "issue": "https://github.com/reihlinstinct/parking-report-intake/issues/29",
    "reason": "summary job opens (or comments on) an issue when a scheduled weekly run fails; scoped to the summary job, tracking issue #29."
+  },
+  {
+   "path": "requirements-test.txt",
+   "rule": "unhashed-requirement",
+   "scope": "dependencies",
+   "evidence": "pytest>=9,<10",
+   "issue": "https://github.com/reihlinstinct/parking-report-intake/issues/14",
+   "reason": "test-only tooling for the coverage job; unhashed by the same class as the existing test requirements, tracking issue #14."
+  },
+  {
+   "path": "requirements-test.txt",
+   "rule": "unhashed-requirement",
+   "scope": "dependencies",
+   "evidence": "coverage>=7,<8",
+   "issue": "https://github.com/reihlinstinct/parking-report-intake/issues/14",
+   "reason": "test-only tooling for the coverage job; unhashed by the same class as the existing test requirements, tracking issue #14."
   }
  ]
 }

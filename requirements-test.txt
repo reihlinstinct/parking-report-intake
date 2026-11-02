@@ -1,2 +1,4 @@
 cryptography>=50.0,<51
 Pillow>=12.3,<13
+pytest>=9,<10
+coverage>=7,<8
