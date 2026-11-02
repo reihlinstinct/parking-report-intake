@@ -102,6 +102,7 @@ jobs:
   summary:
     permissions:
       contents: read
+      issues: write
     name: Run summary
     if: always()
     needs: [changes, unittest]
@@ -133,3 +134,19 @@ jobs:
               sys.exit(1)
           print("All dependencies succeeded or were deliberately skipped.")
           PY
+      - name: Open an issue when a scheduled weekly run fails
+        # Runs only when the gate above failed on a cron-triggered run; PR and
+        # push failures stay in the normal review path. Comments on the open
+        # issue instead of stacking duplicates on consecutive failures.
+        if: failure() && github.event_name == 'schedule'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          TITLE="Weekly full test run failed $(date +%Y-%m-%d)"
+          EXISTING=$(gh issue list --state open --search "$TITLE in:title" --json number --jq '.[0].number // empty')
+          if [ -n "$EXISTING" ]; then
+            gh issue comment "$EXISTING" --body "Another scheduled weekly run failed: $RUN_URL"
+          else
+            gh issue create --title "$TITLE" --body "The scheduled weekly full test run failed: $RUN_URL (visible-failure tracking, issue #29)"
+          fi
