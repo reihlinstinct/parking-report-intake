@@ -4,6 +4,12 @@ on:
   push:
   pull_request:
   workflow_dispatch:
+    inputs:
+      notify_dry_run:
+        description: "echo what the weekly-failure issue step would do, without writing"
+        type: boolean
+        default: false
+        required: false
   schedule:
     # Weekly full suite: Sunday 06:00 Israel winter time (04:00 UTC;
     # runs 07:00 IDT in summer).
@@ -102,6 +108,7 @@ jobs:
   summary:
     permissions:
       contents: read
+      issues: write
     name: Run summary
     if: always()
     needs: [changes, unittest]
@@ -133,3 +140,30 @@ jobs:
               sys.exit(1)
           print("All dependencies succeeded or were deliberately skipped.")
           PY
+      - name: Open an issue when a scheduled weekly run fails
+        # Runs only when the gate above failed on a cron-triggered run; PR and
+        # push failures stay in the normal review path. The dedupe search is
+        # date-free, so a later weekly failure comments on the open issue
+        # instead of opening a new one. workflow_dispatch with notify_dry_run
+        # echoes the action without writing.
+        if: (failure() && github.event_name == 'schedule') || (github.event_name == 'workflow_dispatch' && inputs.notify_dry_run)
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.notify_dry_run }}
+        run: |
+          TITLE="Weekly full test run failed $(date +%Y-%m-%d)"
+          EXISTING=$(gh issue list --state open --search "Weekly full test run failed in:title" --json number --jq '.[0].number // empty')
+          if [ "$DRY_RUN" = "true" ]; then
+            if [ -n "$EXISTING" ]; then
+              echo "dry run: would comment on open issue #$EXISTING with run URL $RUN_URL"
+            else
+              echo "dry run: would create issue '$TITLE' with run URL $RUN_URL"
+            fi
+            exit 0
+          fi
+          if [ -n "$EXISTING" ]; then
+            gh issue comment "$EXISTING" --body "Another scheduled weekly run failed: $RUN_URL"
+          else
+            gh issue create --title "$TITLE" --body "The scheduled weekly full test run failed: $RUN_URL (visible-failure tracking, issue #29)"
+          fi
