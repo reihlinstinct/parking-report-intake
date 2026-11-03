@@ -10,14 +10,6 @@
    "reason": "Approved job-scoped SARIF upload to GitHub code scanning; no code or secrets write."
   },
   {
-   "path": ".github/workflows/manual-gpg-signing.yml",
-   "rule": "top-level-write",
-   "scope": "workflow",
-   "evidence": "contents: write",
-   "issue": "https://github.com/reihlinstinct/parking-report-intake/issues/23",
-   "reason": "Pre-existing workflow-level write permission; tracked for job-level scoping in this issue."
-  },
-  {
    "path": ".github/workflows/tests.yml",
    "rule": "unhashed-pip-install",
    "scope": "dependencies",
@@ -64,6 +56,14 @@
    "evidence": "coverage>=7,<8",
    "issue": "https://github.com/reihlinstinct/parking-report-intake/issues/14",
    "reason": "test-only tooling for the coverage job; unhashed by the same class as the existing test requirements, tracking issue #14."
+  },
+  {
+   "path": ".github/workflows/manual-gpg-signing.yml",
+   "rule": "job-write",
+   "scope": "signing-test",
+   "evidence": "contents: write",
+   "issue": "https://github.com/reihlinstinct/parking-report-intake/issues/23",
+   "reason": "Job-scoped write so the manual owner-run signing test can push its isolated gpg-signing-test/* branch; narrowed from a top-level grant in this remediation, tracked in #23."
   }
  ]
 }
