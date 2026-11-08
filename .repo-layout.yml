@@ -17,7 +17,8 @@
       "*.py",
       "*.txt",
       "*.yml",
-      "LICENSE"
+      "LICENSE",
+      "deps-inventory.json"
     ]
   },
   "directories": {
