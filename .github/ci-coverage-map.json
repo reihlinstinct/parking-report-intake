@@ -1,0 +1,35 @@
+{
+  "mappings": [
+    {
+      "pattern": "*.py",
+      "checks": [
+        "unittest"
+      ]
+    },
+    {
+      "pattern": "requirements*.txt",
+      "checks": [
+        "unittest"
+      ]
+    },
+    {
+      "pattern": ".github/workflows/manual-gpg-signing.yml",
+      "checks": [
+        "validate"
+      ]
+    },
+    {
+      "pattern": "tests/**",
+      "checks": [
+        "unittest",
+        "coverage"
+      ]
+    },
+    {
+      "pattern": "scripts/**",
+      "checks": [
+        "coverage"
+      ]
+    }
+  ]
+}
