@@ -12,7 +12,7 @@ Current status: eight offline crypto/package experiments and eight intake-bounda
 
 Protocol: [PROTOCOL.md](PROTOCOL.md). Requires Python 3.11+ (3.10 is end-of-life). Experimental test script: [prototype.py](prototype.py). Test dependencies are pinned in [requirements-test.txt](requirements-test.txt) (`pip install -r requirements-test.txt`). Run `python prototype.py` locally. Keys are generated transiently for synthetic tests and not written to disk.
 
-No license selected. No permission to redistribute production code is implied.
+Licensed under the [MIT License](LICENSE). This prototype is not a production service and is not accepting real reports.
 
 Prototype API (synthetic, offline; see [prototype.py](prototype.py)):
 
